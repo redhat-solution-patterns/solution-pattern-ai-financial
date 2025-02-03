@@ -7,98 +7,99 @@
 
 Introduction for the architecture of this solution pattern.
 
+[#challenges]
 == Common Challenges 
+
+This solution pattern address the following challenges:
+
+- Integrating private knowledge into a generative AI workflow.
+
+- Capturing and syncronizing near real-time stock exchange data makes periodic fine tuning
+of LLMs prohibitive. 
+
+- Exposing private data sources via externally hosted API services Hosting AI services raises security
+and privacy concerns for most enterprises.
 
 [#tech_stack]
 == Technology Stack
 
 // Change links and text here as you see fit.
-* Red Hat supported products
+* Red Hat supported products:
 ** https://www.redhat.com/en/technologies/cloud-computing/openshift[Red Hat OpenShift]
-** Red Hat Application Foundation
-*** https://access.redhat.com/products/quarkus[Quarkus]
-*** https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-streams-for-apache-kafka[Kafka Streams]
+*** https://https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat Openshift Dev Spaces]
+** https://access.redhat.com/products/red-hat-application-foundations[Red Hat Application Foundation]
+*** https://docs.redhat.com/en/documentation/red_hat_build_of_apache_camel/4.0[Red Hat build of Apache Camel] (included 
+with Red Hat Application Foundation) 
 * Other open source products:
-** https://www.postgresql.org/[PostgreSQL database]
-** https://helm.sh/[Helm]
+** https://weaviate.io/[Weaviate vector database]
+** https://ollama.com/[Ollama Model Server and model files]
+** https://https://huggingface.co/gradio[Gradio]
 
 
 [#in_depth]
 == An in-depth look at the solution's architecture
 
-Technical description including all or some of the following: architecture ir ed diagrams. In-depth details of the decisions made and solutions used. Description of each service and what it is used for. Description of any integration.
+A closer look at the services and components that make up this solution pattern.
 
-=== Using images 
+=== Data Flow 
 
-image::red_hat_open-hybrid-cloud.png[width=30%]
+image::dataflow.jpg[width=100%]
+
+==== Ingest Engine
+Data flow begins at the source with stock information made available 
+via a RESTful API service hosted by Alpha Vantage. The ingest engine consisting
+of two Camel services takes care of keeping data fresh in the Weaviate
+vector database. The ingest processes are highly configurable and perform
+filtering and discarding of invalid or null data. As stock symbol information is
+read in, vector embeddings are generated and stored in the Weaviate vector database along
+with the financial entities for each stock symbol. An example json record is available 
+in the https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo[AlphaVantage API documentation]. 
+
+==== Vector Database
+The vector database used is Weaviate. Weaviate is a highly performant and scalable open-source vector database 
+that simplifies the development of AI applications. Built-in vector and hybrid search, easy-to-connect machine 
+learning models, and a focus on data privacy enable developers of all levels to build, iterate, and scale AI 
+capabilities faster.
+
+==== Machine Learning (ML) models
+This solution pattern makes use of two ML models, an enbeddings model (`all-minilm`) and an LLM (`granite3-dense:8b`)
+which is configurable at run time. The enbeddings model is used to generate vector embeddings for each stock symbol and
+the LLM summarizes the stock information. Granite a series of LLMs developed by IBM, specifically designed 
+for enterprise applications, focusing on business use cases like code generation, summarization, and classification, 
+with a strong emphasis on security and data privacy, all while being open-source under the Apache 2.0 license.
+
+
+image::rag-architecture.jpg[width=100%]
 
 {empty}
 
-=== Embedding HTML
+=== Architecture
 
-++++
-  <br>
-  <h3> Embed HTML by surrounding it with with four +s before and after. </h3>
-  <span>View the ascii doc to learn more</span>
-  <br> 
-++++
+=== Ingest Engine
 
+==== Weaviate vector database 
+The Weaviate vector database is installed using the helm installer which allows for enterprise features to be enabled including
+API key token authentication and data sharding. Weaviate's cloud-native design supports horizontal scaling and efficient resource consumption, 
+allowing it to handle large volumes of data and user requests easily. Interested readers are encouraged to find out more 
+about https://www.redhat.com/en/blog/building-powerful-applications-weaviate-and-red-hat-openshift-retrieval-augmented-generation-workflow[the benefits of hosting Weaviate on Openshift].
 
-=== Different decorators
+==== Ollama Model Server
+https://github.com/ollama/ollama[Ollama] is a popular and easy to use platform to host and serve LLMs. It supports a number of
+operating systems and provides good integration and compatibility with the open source ecosystem including Weaviate. Ollama
+is deployed on Openshift using a https://github.com/openshift/source-to-image[standard source-to-image workflow]. Details 
+can be found in this repository.
 
-[TIP]
-====
-This is a Tip
-====
+==== User Interface
+The UI is written in Python using the Gradio framework and is deployed using Openshift source-to-image workflow. 
+Example queries are presented to the user as pushbuttons to perform semantic
+and generative queries. Users may also enter custom queries and prompts.
 
-[NOTE]
-====
-This is a NOTE
-====
-
-[WARNING]
-====
-This is a WARNING
-====
-
-[IMPORTANT]
-====
-This is IMPORTANT
-====
-
-
-=== Creating  tables
- 
-[cols="1a,1a,1a"]
-|===
-| *Column A*  | Column *A* | _Column C_
-|
-* Lorem Ipsum
-* Lorem Ipsum
-
-|
-* Lorem Ipsum
-* Lorem Ipsum
-
-|
-* Lorem Ipsum
-* Lorem Ipsum
-|===
-
-
-
-=== Content that can be copied
-
-Click below to copy the content
-[.console-input]
-[source,shell script]
-----
-oc version #openshift cli client
-oc login --token=<token> --server=<server>
-----
-
+==== Developer IDE 
+Provided by Red Hat Openshift DevSpaces, this IDE allows developers to work with the codebase and test their changes
+in a live environment.
 
 [#more_tech]
 == About the Technology Stack
 
-If you want to include more details about the tech stack you used, this is the place.
+https://weaviate.io/[Weaviate] is an open-source vector database that makes it easy to build AI applications. 
+https://ollama.com/[Ollama] is a popular and easy to use platform to host and serve LLMs. 

@@ -4,11 +4,12 @@
 :sectlinks:
 :doctype: book
 
-A brief introduction of this solution pattern.
+This solution pattern integrates a number of open source technologies to create a solution that ingests and summarizes
+near real-time stock data. It mimics how a human would analyze and summarize financial information from 
+a variety of companies that trade on the NYSE and NASDAQ markets.
+It is intended to be used as a starting point for your own solution. 
 
-_Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum_
-
-*Contributors:* _Your Name(s) here (can add links to your profile)_
+*Contributors:* Bob Kozdemba and Josh Reagan, Principal Specialist Solution Architects, Red Hat, Inc.
 
 ++++
  <br>
@@ -17,12 +18,22 @@ _Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
 ====
 Solutions Patterns help you understand the art of the possible with Red Hat's portfolio, and not intended to be used as is for production environments. You are welcome use any part of this solution pattern for your own workloads.
 ====
+
 [#use-cases]
 == Use cases
 
-Common use cases that can be address with this architecture are:
+Addtional common use cases that can be address with this architecture are:
 
-- xyz
-- xyz
+* Summarization of unstructed data and documentation
+* Medical claims processing
+  ** Improvement in staff productivity through automation of repetitive tasks
+  ** Reduced error rates in claims validation
+  ** Elevated customer satisfaction scores due to faster and accurate claims processing
+* Customer Service 
+  ** Chat Bots
+  ** Improve the Customer Experience
+  ** Access fresh/real-time product information
+* Summarizing Real Time Events
+  ** A sports writer wants to summarize their notes on an event that an LLM was not trained on.
 
 include::01-pattern.adoc[]
