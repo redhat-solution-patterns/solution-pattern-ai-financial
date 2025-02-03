@@ -64,7 +64,7 @@
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">1. Home page</a>
+    <a class="nav-link" href="index.html">1. Introduction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#use-cases">1.1 Use cases</a>
@@ -82,13 +82,16 @@
     <a class="nav-link" href="02-architecture.html">2. Architecture</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#tech_stack">2.1. Technology stack</a>
+    <a class="nav-link" href="02-architecture.html#challenges">2.1. Common Challenges</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#in_depth">2.2. An in-depth look at the solution&#8217;s architecture</a>
+    <a class="nav-link" href="02-architecture.html#tech_stack">2.2. Technology stack</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#more_tech">2.3. More about the technology stack</a>
+    <a class="nav-link" href="02-architecture.html#in_depth">2.3. An in-depth look at the solution&#8217;s architecture</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-architecture.html#more_tech">2.4. More about the technology stack</a>
   </li>
 </ul>
   </li>
@@ -174,7 +177,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Template Tutorial</a></li>
-    <li><a href="index.html">1. Home page</a></li>
+    <li><a href="index.html">1. Introduction</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/redhat-solution-patterns/rh-solution-pattern-ai-financial/edit/main/documentation/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
@@ -185,13 +188,13 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>A brief introduction of this solution pattern.</p>
+<p>This solution pattern integrates a number of open source technologies to create a solution that ingests and summarizes
+near real-time stock data. It mimics how a human would analyze and summarize financial information from
+a variety of companies that trade on the NYSE and NASDAQ markets.
+It is intended to be used as a starting point for your own solution.</p>
 </div>
 <div class="paragraph">
-<p><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</em></p>
-</div>
-<div class="paragraph">
-<p><strong>Contributors:</strong> <em>Your Name(s) here (can add links to your profile)</em></p>
+<p><strong>Contributors:</strong> Bob Kozdemba and Josh Reagan, Principal Specialist Solution Architects, Red Hat, Inc.</p>
 </div>
  <br>
 <div class="admonitionblock note">
@@ -214,15 +217,54 @@
 <h2 id="use-cases"><a class="anchor" href="#use-cases"></a><a class="link" href="#use-cases">1. Use cases</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Common use cases that can be address with this architecture are:</p>
+<p>Addtional common use cases that can be address with this architecture are:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>xyz</p>
+<p>Summarization of unstructed data and documentation</p>
 </li>
 <li>
-<p>xyz</p>
+<p>Medical claims processing</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Improvement in staff productivity through automation of repetitive tasks</p>
+</li>
+<li>
+<p>Reduced error rates in claims validation</p>
+</li>
+<li>
+<p>Elevated customer satisfaction scores due to faster and accurate claims processing</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Customer Service</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Chat Bots</p>
+</li>
+<li>
+<p>Improve the Customer Experience</p>
+</li>
+<li>
+<p>Access fresh/real-time product information</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Summarizing Real Time Events</p>
+<div class="ulist">
+<ul>
+<li>
+<p>A sports writer wants to summarize their notes on an event that an LLM was not trained on.</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -232,7 +274,25 @@
 <h2 id="_the_story_behind_this_solution_pattern"><a class="anchor" href="#_the_story_behind_this_solution_pattern"></a><a class="link" href="#_the_story_behind_this_solution_pattern">2. The story behind this solution pattern</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A description of the story that was used to build the demo and architectures of this SP.</p>
+<p>This solution pattern uses a Retreival Augmented Generation (RAG) AI workflow to to summarize financial data
+from a stock symbol API service. The use of AI in this scenario provides a financial analyst
+with a starting point and is especially helpfull when comparing a number of different stock symbols at once.
+Data returned from a stock symbol service is often terse including many acronyms and abreviations. The goal is to
+demonstrate how AI technologies can be used to summarize the financial data in a way that is
+more concise and meaningful in a short period of time with minimal human intervention.</p>
+</div>
+<div class="paragraph">
+<p>The solution begins by using Red Hat Build of Apache Camel to ingest and syncronize publicly aviable financial data
+into a vector database powered by Weaviate. The json formatted data returned from the stock symbol service conists of a company description followed by a number of
+financial metrics such as revenue, profit, market capitalization, etc.</p>
+</div>
+<div class="paragraph">
+<p>The RAG workflow consists of a vector database, an embeddings model (used to convert
+words into vectors) and a large language model (LLM) to summarize the results which is presented to the user.
+This approach is desirable when information changes frequently or in semi-real time.
+For example, new stock prices are published every 15 minutes.
+As an alternative to fine tuning an LLM to recognize your private knowledge, Retreival Augmented Generation (RAG)
+provides a reasonable approach to this solution with good accuracy.</p>
 </div>
 </div>
 </div>
@@ -240,7 +300,24 @@
 <h2 id="_the_solution"><a class="anchor" href="#_the_solution"></a><a class="link" href="#_the_solution">3. The Solution</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This is a summary of the solution</p>
+<p>This solution patterns consists of the following open source components which are hosted on the Red Hat Openshift
+container platform:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Red Hat Build of Apache Camel</p>
+</li>
+<li>
+<p>Weaviate Vector Database</p>
+</li>
+<li>
+<p>The Ollama model server</p>
+</li>
+<li>
+<p>A Cloud Native User Interface built with Gradio</p>
+</li>
+</ul>
 </div>
 </div>
 </div>

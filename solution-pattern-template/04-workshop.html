@@ -65,7 +65,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">1. Home page</a>
+    <a class="nav-link" href="index.html">1. Introduction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="index.html#use-cases">1.1 Use cases</a>
@@ -83,13 +83,16 @@
     <a class="nav-link" href="02-architecture.html">2. Architecture</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#tech_stack">2.1. Technology stack</a>
+    <a class="nav-link" href="02-architecture.html#challenges">2.1. Common Challenges</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#in_depth">2.2. An in-depth look at the solution&#8217;s architecture</a>
+    <a class="nav-link" href="02-architecture.html#tech_stack">2.2. Technology stack</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#more_tech">2.3. More about the technology stack</a>
+    <a class="nav-link" href="02-architecture.html#in_depth">2.3. An in-depth look at the solution&#8217;s architecture</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-architecture.html#more_tech">2.4. More about the technology stack</a>
   </li>
 </ul>
   </li>
@@ -186,7 +189,31 @@
 <h1 id="_workshop" class="sect0"><a class="anchor" href="#_workshop"></a><a class="link" href="#_workshop">Workshop</a></h1>
 <div class="openblock partintro">
 <div class="content">
-what is this workshop and what will be learned
+<div class="paragraph">
+<p>During this workshop youwill learn how to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Get experience with a Weaviate enterprise installation.</p>
+</li>
+<li>
+<p>Learn how to use the Weaviate Python client.</p>
+</li>
+<li>
+<p>Learn how python application are deployed on Openshift</p>
+</li>
+<li>
+<p>Work with the Gradio library to build a user interface.</p>
+</li>
+<li>
+<p>Work with an LLM server on Openshift</p>
+</li>
+<li>
+<p>Understand the various components that make up a RAG solution</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -194,18 +221,242 @@ what is this workshop and what will be learned
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_before_getting_started"><a class="anchor" href="#_before_getting_started"></a><a class="link" href="#_before_getting_started">1.1. Before getting started</a></h3>
-
+<div class="sect3">
+<h4 id="_prequisites"><a class="anchor" href="#_prequisites"></a><a class="link" href="#_prequisites">1.1.1. Prequisites</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>An OpenShift Cluster</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Version 4.16 or greater</p>
+</li>
+<li>
+<p>A worker node with a minimum of 4 CPUs, 16 GB of memory and
+a single NVIDIA T4 GPU with 16GB of memory. (AWS <code>g4dn.xlarge</code> or equivalent)</p>
+</li>
+<li>
+<p>The <a href="https://docs.openshift.com/container-platform/4.17/web_console/web_terminal/installing-web-terminal.html">web-terminal</a>
+operator</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>A client system with the following software installed:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mirror.openshift.com/pub/openshift-v4/clients/helm/latest">Helm</a></p>
+</li>
+<li>
+<p><a href="https://maven.apache.org/download.cgi">Maven</a></p>
+</li>
+<li>
+<p><a href="https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/">The Openshift <code>oc</code> cli</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>An <a href="https://www.alphavantage.co/support/#api-key">AlphaVantage API Key</a> if you want to periodically
+refresh the stock symbol data.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_installing_the_environment"><a class="anchor" href="#_installing_the_environment"></a><a class="link" href="#_installing_the_environment">1.2. Installing the environment</a></h3>
-
+<div class="paragraph">
+<p>The following services on OpenShift are required:</p>
+</div>
+<div class="sect3">
+<h4 id="_weaviate_vector_database"><a class="anchor" href="#_weaviate_vector_database"></a><a class="link" href="#_weaviate_vector_database">1.2.1. Weaviate Vector Database</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p><code>git clone <a href="https://github.com/redhat-na-ssa/demo-ai-weaviate" class="bare">https://github.com/redhat-na-ssa/demo-ai-weaviate</a></code></p>
+</li>
+<li>
+<p><code>cd demo-ai-weaviate</code></p>
+</li>
+<li>
+<p><code>oc apply -k deploy</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ollama_llm_server"><a class="anchor" href="#_ollama_llm_server"></a><a class="link" href="#_ollama_llm_server">1.2.2. Ollama LLM Server</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p><code>oc apply -k ollama/deploy</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Pull the necessary ML models:</p>
+</div>
+<div class="paragraph">
+<p>Login to the Openshift console, open a terminal window in the <code>ollama</code> project
+and run the following commands.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>curl <a href="http://ollama.ollama/api/pull" class="bare">http://ollama.ollama/api/pull</a> -d '{"model" : "all-minilm"}'</code></p>
+</li>
+<li>
+<p><code>curl <a href="http://ollama.ollama/api/pull" class="bare">http://ollama.ollama/api/pull</a> -d '{"model" : "granite3-dense:8b"}'</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_stock_overview_ingestion_engine"><a class="anchor" href="#_stock_overview_ingestion_engine"></a><a class="link" href="#_stock_overview_ingestion_engine">1.2.3. Stock Overview Ingestion Engine</a></h4>
+<div class="sect4">
+<h5 id="_caching_proxy"><a class="anchor" href="#_caching_proxy"></a><a class="link" href="#_caching_proxy">Caching Proxy</a></h5>
+<div class="paragraph">
+<p>Follow the instructions to install the caching proxy in the <code>camel</code> namespace.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>oc new-project camel</code></p>
+</li>
+<li>
+<p><code>git clone <a href="https://github.com/joshdreagan/av-caching-proxy.git" class="bare">https://github.com/joshdreagan/av-caching-proxy.git</a></code></p>
+</li>
+<li>
+<p><code>cd av-caching-proxy</code></p>
+</li>
+<li>
+<p><code>cp src/main/jkube/deployment.yml.template src/main/jkube/deployment.yml</code></p>
+</li>
+<li>
+<p><code>cp src/main/jkube/configmap.yml.template src/main/jkube/configmap.yml</code></p>
+</li>
+<li>
+<p><code>mvn -P openshift clean package oc:deploy</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The default values for <code>deployment.yml</code>, and <code>configmap.yml</code> should be fine.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_stock_overview_syncronizer"><a class="anchor" href="#_stock_overview_syncronizer"></a><a class="link" href="#_stock_overview_syncronizer">Stock Overview Syncronizer</a></h5>
+<div class="paragraph">
+<p>Install the AlphaVantage syncronizer in the <code>camel</code> namespace.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>git clone <a href="https://github.com/joshdreagan/av-overview-sync.git" class="bare">https://github.com/joshdreagan/av-overview-sync.git</a></code></p>
+</li>
+<li>
+<p><code>cd av-overview-sync</code></p>
+</li>
+<li>
+<p><code>cp src/main/jkube/deployment.yml.template src/main/jkube/deployment.yml</code></p>
+</li>
+<li>
+<p><code>cp src/main/jkube/configmap.yml.template src/main/jkube/configmap.yml</code></p>
+</li>
+<li>
+<p><code>cp src/main/jkube/secret.yml.template src/main/jkube/secret.yml</code></p>
+</li>
+<li>
+<p><code>mvn -P openshift clean package oc:deploy</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Configure the <code>src/main/jkube/configmap.yml</code> to use the <code>all-minilm</code> vectorizer model
+and the <code>granite3-dense:8b</code> generative model.</p>
+</div>
+<div class="paragraph">
+<p>Update your base64 encoded AlphaVantage API Key in the <code>src/main/jkube/secret.yml</code> file.</p>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_delivering_the_workshop"><a class="anchor" href="#_delivering_the_workshop"></a><a class="link" href="#_delivering_the_workshop">2. Delivering the workshop</a></h2>
-<div class="sectionbody">
-
+<div class="sect3">
+<h4 id="_gradio_ui_and_application"><a class="anchor" href="#_gradio_ui_and_application"></a><a class="link" href="#_gradio_ui_and_application">1.2.4. Gradio UI and application.</a></h4>
+<div class="paragraph">
+<p>From a terminal, create an OpenShift application.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Obtain the
+<a href="https://raw.githubusercontent.com/redhat-na-ssa/demo-ai-weaviate/refs/heads/main/deploy/weaviate/configmap.yaml">Weaviate API key</a>
+and use it to create the RAG application.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>oc new-app python~https://github.com/redhat-na-ssa/demo-ai-weaviate --name rag --context-dir=/src --env WEAVIATE_API_KEY=your_weaviate_admin-api-key</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Expose the app with an external route and have fun.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>oc create route edge --service rag --insecure-policy=Redirect</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_running_the_workshop"><a class="anchor" href="#_running_the_workshop"></a><a class="link" href="#_running_the_workshop">1.3. Running the workshop</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Review the <a href="https://www.alphavantage.co/query?function=OVERVIEW&amp;symbol=IBM&amp;apikey=demo">IBM stock symbol json</a> to
+explain the use case.</p>
+</li>
+<li>
+<p>Review the dataflow diagram to explain the workflow.</p>
+</li>
+<li>
+<p>Review the architecture diagram to explain the Openshift services.</p>
+</li>
+<li>
+<p>Run the <code>rag</code> application.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Try different search terms and see how the results change.</p>
+</li>
+<li>
+<p>Vary the limits and see the different number of returned results.</p>
+</li>
+<li>
+<p>Try different LLM prompts.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <nav class="pagination">

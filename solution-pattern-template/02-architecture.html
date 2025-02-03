@@ -65,7 +65,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">1. Home page</a>
+    <a class="nav-link" href="index.html">1. Introduction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="index.html#use-cases">1.1 Use cases</a>
@@ -83,13 +83,16 @@
     <a class="nav-link" href="02-architecture.html">2. Architecture</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#tech_stack">2.1. Technology stack</a>
+    <a class="nav-link" href="#challenges">2.1. Common Challenges</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#in_depth">2.2. An in-depth look at the solution&#8217;s architecture</a>
+    <a class="nav-link" href="#tech_stack">2.2. Technology stack</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#more_tech">2.3. More about the technology stack</a>
+    <a class="nav-link" href="#in_depth">2.3. An in-depth look at the solution&#8217;s architecture</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#more_tech">2.4. More about the technology stack</a>
   </li>
 </ul>
   </li>
@@ -190,9 +193,26 @@ Introduction for the architecture of this solution pattern.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_common_challenges"><a class="anchor" href="#_common_challenges"></a><a class="link" href="#_common_challenges">1. Common Challenges</a></h2>
+<h2 id="challenges"><a class="anchor" href="#challenges"></a><a class="link" href="#challenges">1. Common Challenges</a></h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>This solution pattern address the following challenges:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Integrating private knowledge into a generative AI workflow.</p>
+</li>
+<li>
+<p>Capturing and syncronizing near real-time stock exchange data makes periodic fine tuning
+of LLMs prohibitive.</p>
+</li>
+<li>
+<p>Exposing private data sources via externally hosted API services Hosting AI services raises security
+and privacy concerns for most enterprises.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -201,21 +221,26 @@ Introduction for the architecture of this solution pattern.
 <div class="ulist">
 <ul>
 <li>
-<p>Red Hat supported products</p>
+<p>Red Hat supported products:</p>
 <div class="ulist">
 <ul>
 <li>
 <p><a href="https://www.redhat.com/en/technologies/cloud-computing/openshift">Red Hat OpenShift</a></p>
-</li>
-<li>
-<p>Red Hat Application Foundation</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://access.redhat.com/products/quarkus">Quarkus</a></p>
+<p><a href="https://https://developers.redhat.com/products/openshift-dev-spaces/overview">Red Hat Openshift Dev Spaces</a></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p><a href="https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-streams-for-apache-kafka">Kafka Streams</a></p>
+<p><a href="https://access.redhat.com/products/red-hat-application-foundations">Red Hat Application Foundation</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/red_hat_build_of_apache_camel/4.0">Red Hat build of Apache Camel</a> (included
+with Red Hat Application Foundation)</p>
 </li>
 </ul>
 </div>
@@ -228,10 +253,13 @@ Introduction for the architecture of this solution pattern.
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://www.postgresql.org/">PostgreSQL database</a></p>
+<p><a href="https://weaviate.io/">Weaviate vector database</a></p>
 </li>
 <li>
-<p><a href="https://helm.sh/">Helm</a></p>
+<p><a href="https://ollama.com/">Ollama Model Server and model files</a></p>
+</li>
+<li>
+<p><a href="https://https://huggingface.co/gradio">Gradio</a></p>
 </li>
 </ul>
 </div>
@@ -244,149 +272,93 @@ Introduction for the architecture of this solution pattern.
 <h2 id="in_depth"><a class="anchor" href="#in_depth"></a><a class="link" href="#in_depth">3. An in-depth look at the solution&#8217;s architecture</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Technical description including all or some of the following: architecture ir ed diagrams. In-depth details of the decisions made and solutions used. Description of each service and what it is used for. Description of any integration.</p>
+<p>A closer look at the services and components that make up this solution pattern.</p>
 </div>
 <div class="sect2">
-<h3 id="_using_images"><a class="anchor" href="#_using_images"></a><a class="link" href="#_using_images">3.1. Using images</a></h3>
+<h3 id="_data_flow"><a class="anchor" href="#_data_flow"></a><a class="link" href="#_data_flow">3.1. Data Flow</a></h3>
 <div class="imageblock">
 <div class="content">
-<img src="_images/red_hat_open-hybrid-cloud.png" alt="red hat open hybrid cloud" width="30%">
+<img src="_images/dataflow.jpg" alt="dataflow" width="100%">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ingest_engine"><a class="anchor" href="#_ingest_engine"></a><a class="link" href="#_ingest_engine">3.1.1. Ingest Engine</a></h4>
+<div class="paragraph">
+<p>Data flow begins at the source with stock information made available
+via a RESTful API service hosted by Alpha Vantage. The ingest engine consisting
+of two Camel services takes care of keeping data fresh in the Weaviate
+vector database. The ingest processes are highly configurable and perform
+filtering and discarding of invalid or null data. As stock symbol information is
+read in, vector embeddings are generated and stored in the Weaviate vector database along
+with the financial entities for each stock symbol. An example json record is available
+in the <a href="https://www.alphavantage.co/query?function=OVERVIEW&amp;symbol=IBM&amp;apikey=demo">AlphaVantage API documentation</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vector_database"><a class="anchor" href="#_vector_database"></a><a class="link" href="#_vector_database">3.1.2. Vector Database</a></h4>
+<div class="paragraph">
+<p>The vector database used is Weaviate. Weaviate is a highly performant and scalable open-source vector database
+that simplifies the development of AI applications. Built-in vector and hybrid search, easy-to-connect machine
+learning models, and a focus on data privacy enable developers of all levels to build, iterate, and scale AI
+capabilities faster.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_machine_learning_ml_models"><a class="anchor" href="#_machine_learning_ml_models"></a><a class="link" href="#_machine_learning_ml_models">3.1.3. Machine Learning (ML) models</a></h4>
+<div class="paragraph">
+<p>This solution pattern makes use of two ML models, an enbeddings model (<code>all-minilm</code>) and an LLM (<code>granite3-dense:8b</code>)
+which is configurable at run time. The enbeddings model is used to generate vector embeddings for each stock symbol and
+the LLM summarizes the stock information. Granite a series of LLMs developed by IBM, specifically designed
+for enterprise applications, focusing on business use cases like code generation, summarization, and classification,
+with a strong emphasis on security and data privacy, all while being open-source under the Apache 2.0 license.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rag-architecture.jpg" alt="rag architecture" width="100%">
 </div>
 </div>
 <div class="paragraph">
 <p></p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_embedding_html"><a class="anchor" href="#_embedding_html"></a><a class="link" href="#_embedding_html">3.2. Embedding HTML</a></h3>
-  <br>
-  <h3> Embed HTML by surrounding it with with four +s before and after. </h3>
-  <span>View the ascii doc to learn more</span>
-  <br>
 </div>
 <div class="sect2">
-<h3 id="_different_decorators"><a class="anchor" href="#_different_decorators"></a><a class="link" href="#_different_decorators">3.3. Different decorators</a></h3>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This is a Tip</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This is a NOTE</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This is a WARNING</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This is IMPORTANT</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
+<h3 id="_architecture_2"><a class="anchor" href="#_architecture_2"></a><a class="link" href="#_architecture_2">3.2. Architecture</a></h3>
+
 </div>
 <div class="sect2">
-<h3 id="_creating_tables"><a class="anchor" href="#_creating_tables"></a><a class="link" href="#_creating_tables">3.4. Creating  tables</a></h3>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><strong>Column A</strong></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Column <strong>A</strong></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>Column C</em></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Lorem Ipsum</p>
-</li>
-<li>
-<p>Lorem Ipsum</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Lorem Ipsum</p>
-</li>
-<li>
-<p>Lorem Ipsum</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Lorem Ipsum</p>
-</li>
-<li>
-<p>Lorem Ipsum</p>
-</li>
-</ul>
-</div></div></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_content_that_can_be_copied"><a class="anchor" href="#_content_that_can_be_copied"></a><a class="link" href="#_content_that_can_be_copied">3.5. Content that can be copied</a></h3>
+<h3 id="_ingest_engine_2"><a class="anchor" href="#_ingest_engine_2"></a><a class="link" href="#_ingest_engine_2">3.3. Ingest Engine</a></h3>
+<div class="sect3">
+<h4 id="_weaviate_vector_database"><a class="anchor" href="#_weaviate_vector_database"></a><a class="link" href="#_weaviate_vector_database">3.3.1. Weaviate vector database</a></h4>
 <div class="paragraph">
-<p>Click below to copy the content</p>
+<p>The Weaviate vector database is installed using the helm installer which allows for enterprise features to be enabled including
+API key token authentication and data sharding. Weaviate&#8217;s cloud-native design supports horizontal scaling and efficient resource consumption,
+allowing it to handle large volumes of data and user requests easily. Interested readers are encouraged to find out more
+about <a href="https://www.redhat.com/en/blog/building-powerful-applications-weaviate-and-red-hat-openshift-retrieval-augmented-generation-workflow">the benefits of hosting Weaviate on Openshift</a>.</p>
 </div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-shell script hljs" data-lang="shell script">oc version #openshift cli client
-oc login --token=&lt;token&gt; --server=&lt;server&gt;</code></pre>
+</div>
+<div class="sect3">
+<h4 id="_ollama_model_server"><a class="anchor" href="#_ollama_model_server"></a><a class="link" href="#_ollama_model_server">3.3.2. Ollama Model Server</a></h4>
+<div class="paragraph">
+<p><a href="https://github.com/ollama/ollama">Ollama</a> is a popular and easy to use platform to host and serve LLMs. It supports a number of
+operating systems and provides good integration and compatibility with the open source ecosystem including Weaviate. Ollama
+is deployed on Openshift using a <a href="https://github.com/openshift/source-to-image">standard source-to-image workflow</a>. Details
+can be found in this repository.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user_interface"><a class="anchor" href="#_user_interface"></a><a class="link" href="#_user_interface">3.3.3. User Interface</a></h4>
+<div class="paragraph">
+<p>The UI is written in Python using the Gradio framework and is deployed using Openshift source-to-image workflow.
+Example queries are presented to the user as pushbuttons to perform semantic
+and generative queries. Users may also enter custom queries and prompts.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_developer_ide"><a class="anchor" href="#_developer_ide"></a><a class="link" href="#_developer_ide">3.3.4. Developer IDE</a></h4>
+<div class="paragraph">
+<p>Provided by Red Hat Openshift DevSpaces, this IDE allows developers to work with the codebase and test their changes
+in a live environment.</p>
 </div>
 </div>
 </div>
@@ -396,12 +368,13 @@ oc login --token=&lt;token&gt; --server=&lt;server&gt;</code></pre>
 <h2 id="more_tech"><a class="anchor" href="#more_tech"></a><a class="link" href="#more_tech">4. About the Technology Stack</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you want to include more details about the tech stack you used, this is the place.</p>
+<p><a href="https://weaviate.io/">Weaviate</a> is an open-source vector database that makes it easy to build AI applications.
+<a href="https://ollama.com/">Ollama</a> is a popular and easy to use platform to host and serve LLMs.</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="index.html" class="query-params-link">1. Home page</a></span>
+  <span class="prev"><a href="index.html" class="query-params-link">1. Introduction</a></span>
   <span class="next"><a href="03-demo.html" class="query-params-link">3. See the Solution in Action</a></span>
 </nav>
 </article>

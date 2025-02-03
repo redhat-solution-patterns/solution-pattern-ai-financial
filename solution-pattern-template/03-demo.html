@@ -65,7 +65,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">1. Home page</a>
+    <a class="nav-link" href="index.html">1. Introduction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="index.html#use-cases">1.1 Use cases</a>
@@ -83,13 +83,16 @@
     <a class="nav-link" href="02-architecture.html">2. Architecture</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#tech_stack">2.1. Technology stack</a>
+    <a class="nav-link" href="02-architecture.html#challenges">2.1. Common Challenges</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#in_depth">2.2. An in-depth look at the solution&#8217;s architecture</a>
+    <a class="nav-link" href="02-architecture.html#tech_stack">2.2. Technology stack</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#more_tech">2.3. More about the technology stack</a>
+    <a class="nav-link" href="02-architecture.html#in_depth">2.3. An in-depth look at the solution&#8217;s architecture</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-architecture.html#more_tech">2.4. More about the technology stack</a>
   </li>
 </ul>
   </li>
@@ -193,51 +196,56 @@
 <div class="sect2">
 <h3 id="demo-video"><a class="anchor" href="#demo-video"></a><a class="link" href="#demo-video">1.1. Watch a demonstration</a></h3>
 <div class="paragraph">
-<p>In this video you can see xpto:</p>
+<p>In this video you can see a brief demonstration:</p>
 </div>
 <div class="videoblock">
 <div class="content">
-<iframe width="800" height="480" src="https://www.youtube.com/embed/3yULVMdqJ98?rel=0" frameborder="0" allowfullscreen></iframe>
+<video src="https://people.redhat.com/bkozdemb/downloads/fsi-rag.m4v" width="100%" controls>
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_application_screen_shot"><a class="anchor" href="#_application_screen_shot"></a><a class="link" href="#_application_screen_shot">1.2. Application Screen Shot</a></h3>
+<div class="imageblock">
+<div class="content">
+<img src="_images/app-screenshot.png" alt="app screenshot" width="100%">
 </div>
 </div>
 <div class="paragraph">
-<p>Next, you can learn how to walkthrough this demo.</p>
+<p>Next, you can learn how to install this demo.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_run_the_demonstration"><a class="anchor" href="#_run_the_demonstration"></a><a class="link" href="#_run_the_demonstration">2. Run the demonstration</a></h2>
+<h2 id="_installing_and_running_the_demonstration"><a class="anchor" href="#_installing_and_running_the_demonstration"></a><a class="link" href="#_installing_and_running_the_demonstration">2. Installing and running the demonstration</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_before_getting_started"><a class="anchor" href="#_before_getting_started"></a><a class="link" href="#_before_getting_started">2.1. Before getting started</a></h3>
+<h3 id="_prequisites"><a class="anchor" href="#_prequisites"></a><a class="link" href="#_prequisites">2.1. Prequisites</a></h3>
 <div class="paragraph">
-<p>To run this demo, you will need xpto. Adding to that, make sure to have:</p>
+<p>To run this demo, you will need an Openshift v4.16.x cluster with the following resources:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>ABC</p>
+<p>A worker node that is configured with 8 virtual CPUS, 16GB of RAM and an NVIDIA accelerator with &gt;= 16GB of GPU memory.</p>
 </li>
 <li>
-<p>XYZ</p>
-</li>
-<li>
-<p>XPTO</p>
+<p>100GB of storage available for persistent volumes.</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_installing_the_demo"><a class="anchor" href="#_installing_the_demo"></a><a class="link" href="#_installing_the_demo">2.2. Installing the demo</a></h3>
-<div class="paragraph">
-<p>Installation guide and basic test of the demo installation if needed</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_walkthrough_guide"><a class="anchor" href="#_walkthrough_guide"></a><a class="link" href="#_walkthrough_guide">2.3. Walkthrough guide</a></h3>
-<div class="paragraph">
-<p>How to run through the demo</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Follow the <a href="https://github.com/redhat-na-ssa/demo-ai-weaviate">installation guide</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>

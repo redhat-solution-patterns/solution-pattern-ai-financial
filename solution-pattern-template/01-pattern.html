@@ -63,7 +63,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">1. Home page</a>
+    <a class="nav-link" href="index.html">1. Introduction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="index.html#use-cases">1.1 Use cases</a>
@@ -81,13 +81,16 @@
     <a class="nav-link" href="02-architecture.html">2. Architecture</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#tech_stack">2.1. Technology stack</a>
+    <a class="nav-link" href="02-architecture.html#challenges">2.1. Common Challenges</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#in_depth">2.2. An in-depth look at the solution&#8217;s architecture</a>
+    <a class="nav-link" href="02-architecture.html#tech_stack">2.2. Technology stack</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-architecture.html#more_tech">2.3. More about the technology stack</a>
+    <a class="nav-link" href="02-architecture.html#in_depth">2.3. An in-depth look at the solution&#8217;s architecture</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-architecture.html#more_tech">2.4. More about the technology stack</a>
   </li>
 </ul>
   </li>
@@ -180,7 +183,25 @@
 <h2 id="_the_story_behind_this_solution_pattern"><a class="anchor" href="#_the_story_behind_this_solution_pattern"></a>The story behind this solution pattern</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A description of the story that was used to build the demo and architectures of this SP.</p>
+<p>This solution pattern uses a Retreival Augmented Generation (RAG) AI workflow to to summarize financial data
+from a stock symbol API service. The use of AI in this scenario provides a financial analyst
+with a starting point and is especially helpfull when comparing a number of different stock symbols at once.
+Data returned from a stock symbol service is often terse including many acronyms and abreviations. The goal is to
+demonstrate how AI technologies can be used to summarize the financial data in a way that is
+more concise and meaningful in a short period of time with minimal human intervention.</p>
+</div>
+<div class="paragraph">
+<p>The solution begins by using Red Hat Build of Apache Camel to ingest and syncronize publicly aviable financial data
+into a vector database powered by Weaviate. The json formatted data returned from the stock symbol service conists of a company description followed by a number of
+financial metrics such as revenue, profit, market capitalization, etc.</p>
+</div>
+<div class="paragraph">
+<p>The RAG workflow consists of a vector database, an embeddings model (used to convert
+words into vectors) and a large language model (LLM) to summarize the results which is presented to the user.
+This approach is desirable when information changes frequently or in semi-real time.
+For example, new stock prices are published every 15 minutes.
+As an alternative to fine tuning an LLM to recognize your private knowledge, Retreival Augmented Generation (RAG)
+provides a reasonable approach to this solution with good accuracy.</p>
 </div>
 </div>
 </div>
@@ -188,7 +209,24 @@
 <h2 id="_the_solution"><a class="anchor" href="#_the_solution"></a>The Solution</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This is a summary of the solution</p>
+<p>This solution patterns consists of the following open source components which are hosted on the Red Hat Openshift
+container platform:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Red Hat Build of Apache Camel</p>
+</li>
+<li>
+<p>Weaviate Vector Database</p>
+</li>
+<li>
+<p>The Ollama model server</p>
+</li>
+<li>
+<p>A Cloud Native User Interface built with Gradio</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
