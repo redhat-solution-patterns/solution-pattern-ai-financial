@@ -104,11 +104,29 @@ Expose the app with an external route and have fun.
 
 === Running the workshop
 
-- Review the https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo[IBM stock symbol json] to
-explain the use case.
-- Review the dataflow diagram to explain the workflow.
-- Review the architecture diagram to explain the Openshift services.
-- Run the `rag` application.
+==== Understanding the Use case
+
+Let's get started by having a look at the example
+https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo[IBM stock symbol json] to
+explain the use case. Each json formatted data record includes the stock symbol, a company
+name, a short description followed by a number of financial metrics. Imagine that you have been given 
+this data and are asked to write up a financial summary. This sounds like a typical task that a financial
+analyist may be asked to perform and at first glance seems straight forward but the data is not 
+structured in a way that is easy to understand. Some of the data is represented as currency while 
+others are represented as ratios, percentages, dates and so on. The task becomes more challenging and time 
+consuming when more than one company must be analyzed not to mentioned that the data is semi-realtime
+and could change several times day. This is where AI can help. In this workshop, we will make use of a vector
+database and an LLM to give the analyst a head start on the task at hand.
+
+==== Review the dataflow diagram to explain the workflow.
+TODO
+
+==== Review the architecture diagram to explain the Openshift services.
+TODO
+
+==== Run the RAG application.
+TODO
+
   * Try different search terms and see how the results change.
   * Vary the limits and see the different number of returned results.
   * Try different LLM prompts.
