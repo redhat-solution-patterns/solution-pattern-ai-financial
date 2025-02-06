@@ -324,12 +324,18 @@ with a strong emphasis on security and data privacy, all while being open-source
 </div>
 <div class="sect2">
 <h3 id="_architecture_2"><a class="anchor" href="#_architecture_2"></a><a class="link" href="#_architecture_2">3.2. Architecture</a></h3>
-
-</div>
-<div class="sect2">
-<h3 id="_ingest_engine_2"><a class="anchor" href="#_ingest_engine_2"></a><a class="link" href="#_ingest_engine_2">3.3. Ingest Engine</a></h3>
 <div class="sect3">
-<h4 id="_weaviate_vector_database"><a class="anchor" href="#_weaviate_vector_database"></a><a class="link" href="#_weaviate_vector_database">3.3.1. Weaviate vector database</a></h4>
+<h4 id="_ingest_engine_2"><a class="anchor" href="#_ingest_engine_2"></a><a class="link" href="#_ingest_engine_2">3.2.1. Ingest Engine</a></h4>
+<div class="paragraph">
+<p>The ingest engine consists of a caching proxy and syncronizer services. The caching proxy is a Camel service that
+caches the stock information from the Alpha Vantage API and the syncronizer service is a Camel service that
+synchronizes the data with the Weaviate vector database. The ingest engine is deployed on Openshift using a standard
+source-to-image workflow. Details can be found in the <a href="https://github.com/joshdreagan/av-caching-proxy.git">caching proxy</a>
+and <a href="https://github.com/joshdreagan/av-overview-sync.git">syncronizer</a> repositories.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_weaviate_vector_database"><a class="anchor" href="#_weaviate_vector_database"></a><a class="link" href="#_weaviate_vector_database">3.2.2. Weaviate vector database</a></h4>
 <div class="paragraph">
 <p>The Weaviate vector database is installed using the helm installer which allows for enterprise features to be enabled including
 API key token authentication and data sharding. Weaviate&#8217;s cloud-native design supports horizontal scaling and efficient resource consumption,
@@ -338,7 +344,7 @@ about <a href="https://www.redhat.com/en/blog/building-powerful-applications-wea
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ollama_model_server"><a class="anchor" href="#_ollama_model_server"></a><a class="link" href="#_ollama_model_server">3.3.2. Ollama Model Server</a></h4>
+<h4 id="_ollama_model_server"><a class="anchor" href="#_ollama_model_server"></a><a class="link" href="#_ollama_model_server">3.2.3. Ollama Model Server</a></h4>
 <div class="paragraph">
 <p><a href="https://github.com/ollama/ollama">Ollama</a> is a popular and easy to use platform to host and serve LLMs. It supports a number of
 operating systems and provides good integration and compatibility with the open source ecosystem including Weaviate. Ollama
@@ -347,7 +353,7 @@ can be found in this repository.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_user_interface"><a class="anchor" href="#_user_interface"></a><a class="link" href="#_user_interface">3.3.3. User Interface</a></h4>
+<h4 id="_user_interface"><a class="anchor" href="#_user_interface"></a><a class="link" href="#_user_interface">3.2.4. User Interface</a></h4>
 <div class="paragraph">
 <p>The UI is written in Python using the Gradio framework and is deployed using Openshift source-to-image workflow.
 Example queries are presented to the user as pushbuttons to perform semantic
@@ -355,7 +361,7 @@ and generative queries. Users may also enter custom queries and prompts.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_developer_ide"><a class="anchor" href="#_developer_ide"></a><a class="link" href="#_developer_ide">3.3.4. Developer IDE</a></h4>
+<h4 id="_developer_ide"><a class="anchor" href="#_developer_ide"></a><a class="link" href="#_developer_ide">3.2.5. Developer IDE</a></h4>
 <div class="paragraph">
 <p>Provided by Red Hat Openshift DevSpaces, this IDE allows developers to work with the codebase and test their changes
 in a live environment.</p>

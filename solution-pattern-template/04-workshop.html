@@ -443,34 +443,54 @@ database and an LLM to give the analyst a head start on the task at hand.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_review_the_dataflow_diagram_to_explain_the_workflow"><a class="anchor" href="#_review_the_dataflow_diagram_to_explain_the_workflow"></a><a class="link" href="#_review_the_dataflow_diagram_to_explain_the_workflow">1.3.2. Review the dataflow diagram to explain the workflow.</a></h4>
+<h4 id="_openshift_services"><a class="anchor" href="#_openshift_services"></a><a class="link" href="#_openshift_services">1.3.2. Openshift services.</a></h4>
+<div class="sect4">
+<h5 id="_weaviate"><a class="anchor" href="#_weaviate"></a><a class="link" href="#_weaviate">Weaviate</a></h5>
 <div class="paragraph">
-<p>TODO</p>
+<p>At the center of the architecture is the Weaviate vector database. It it is deployed as an OpenShift
+statefulset to provide resilency and performance. The Weaviate vector database is exposed as a RESTful API via
+the internal service network to allow neighboring services such as the syncronizer and intelligent query clients
+to interact with it.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_ingest_engine"><a class="anchor" href="#_ingest_engine"></a><a class="link" href="#_ingest_engine">Ingest Engine</a></h5>
+<div class="paragraph">
+<p>The ingest engine consists of a caching proxy and syncronizer. Once these services are started, the Weaviate vector database is
+initialized with a collection of 7118 stock symbol objects from a <a href="https://github.com/joshdreagan/av-overview-sync/blob/master/src/main/resources/data/company-overview.json">local file cache</a>.
+As symbols are ingested, they are converted to vectors via the vectorizer model and upserted into Weaviate as embeddings.
+Once this cold start sequence is complete, the syncronizer will periodically refresh a number of stock symbols. This
+list of symbols of interest is may be configured at run time. Notice that the entire ingest engine
+is highly configurable via <a href="https://github.com/joshdreagan/av-overview-sync/blob/master/src/main/jkube/configmap.yml.template#L7">Openshift configmaps</a>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_ollama_model_server"><a class="anchor" href="#_ollama_model_server"></a><a class="link" href="#_ollama_model_server">Ollama Model Server</a></h5>
+<div class="paragraph">
+<p>The Ollama model server hosts a vectorizer and a large language model. To provide optimal performance and latency
+it is accelerated by GPUs.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_developer_ide"><a class="anchor" href="#_developer_ide"></a><a class="link" href="#_developer_ide">Developer IDE</a></h5>
+<div class="paragraph">
+<p>Code assistance, debugging and enhanced developer experience is made possible by Openshift DevSpaces.</p>
+</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_review_the_architecture_diagram_to_explain_the_openshift_services"><a class="anchor" href="#_review_the_architecture_diagram_to_explain_the_openshift_services"></a><a class="link" href="#_review_the_architecture_diagram_to_explain_the_openshift_services">1.3.3. Review the architecture diagram to explain the Openshift services.</a></h4>
+<h4 id="_running_the_rag_application"><a class="anchor" href="#_running_the_rag_application"></a><a class="link" href="#_running_the_rag_application">1.3.3. Running the RAG application.</a></h4>
 <div class="paragraph">
-<p>TODO</p>
+<p>To run the itelligent application visit the <code>rag</code> route in a web browser. Start off near the top of the web page UI
+by performing a semantic search using terms like "computers" or "commodities" and see the results. Also feel free
+to try a term of your own.
+The number of results can be changed using the horizontal slider. Weaviate will return the closest matches but only
+the company names will appear in the UI.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_run_the_rag_application"><a class="anchor" href="#_run_the_rag_application"></a><a class="link" href="#_run_the_rag_application">1.3.4. Run the RAG application.</a></h4>
 <div class="paragraph">
-<p>TODO</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Try different search terms and see how the results change.</p>
-</li>
-<li>
-<p>Vary the limits and see the different number of returned results.</p>
-</li>
-<li>
-<p>Try different LLM prompts.</p>
-</li>
-</ul>
+<p>Now choose a prompt template near the bottom half of the UI. This is where the magic happens. The Weaviate
+SDK will fill-in the prompt template with the results of the semantic search and perform a generative search using the
+power of the LLM. Again, experiment with your own prompts and have fun!</p>
 </div>
 </div>
 </div>
