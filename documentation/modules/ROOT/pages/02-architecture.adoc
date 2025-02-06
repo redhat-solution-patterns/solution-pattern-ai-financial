@@ -75,7 +75,13 @@ image::rag-architecture.jpg[width=100%]
 
 === Architecture
 
-=== Ingest Engine
+==== Ingest Engine
+
+The ingest engine consists of a caching proxy and syncronizer services. The caching proxy is a Camel service that 
+caches the stock information from the Alpha Vantage API and the syncronizer service is a Camel service that 
+synchronizes the data with the Weaviate vector database. The ingest engine is deployed on Openshift using a standard 
+source-to-image workflow. Details can be found in the https://github.com/joshdreagan/av-caching-proxy.git[caching proxy]
+and https://github.com/joshdreagan/av-overview-sync.git[syncronizer] repositories. 
 
 ==== Weaviate vector database 
 The Weaviate vector database is installed using the helm installer which allows for enterprise features to be enabled including
