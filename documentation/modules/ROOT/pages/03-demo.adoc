@@ -19,15 +19,5 @@ video::https://people.redhat.com/bkozdemb/downloads/fsi-rag.m4v[width=100%]
 === Application Screen Shot
 image::app-screenshot.png[width=100%]
 
-Next, you can learn how to install this demo.
+In the workshop section that follows, you will learn how to install this demo on your own Openshift platform.
 
-== Installing and running the demonstration
-
-=== Prequisites
-To run this demo, you will need an Openshift v4.16.x cluster with the following resources:
-
-* A worker node that is configured with 8 virtual CPUS, 16GB of RAM and an NVIDIA accelerator with >= 16GB of GPU memory.
-* 100GB of storage available for persistent volumes.
-
-=== Installing the demo
-** Follow the https://github.com/redhat-na-ssa/demo-ai-weaviate[installation guide]
