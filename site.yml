@@ -5,6 +5,9 @@ site:
   title: Solution Patterns for Cloud Native Architectures
   url: https://redhat-solution-patterns.github.io/solution-patterns/
   start_page: solution-pattern-template::index.adoc
+  keys:
+    google_analytics: 'G-4L5WD0L52J'  
+
 
 content:
   sources:

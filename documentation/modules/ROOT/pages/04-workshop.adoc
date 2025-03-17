@@ -1,4 +1,4 @@
-= Solution Pattern: Name Template
+= Retreival Augmented Generation (RAG) AI workflow
 :sectnums:
 :sectlinks:
 :doctype: book
