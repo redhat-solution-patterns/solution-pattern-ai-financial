@@ -1,4 +1,4 @@
-= Solution Patterns: Template Name
+= Summarization with Retreival Augmented Generation (RAG) AI workflow
 :page-layout: home
 :sectnums:
 :sectlinks:

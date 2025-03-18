@@ -1,4 +1,4 @@
-= Retreival Augmented Generation (RAG) AI workflow
+= Summarization with Retreival Augmented Generation (RAG) AI workflow
 :sectnums:
 :sectlinks:
 :doctype: book
